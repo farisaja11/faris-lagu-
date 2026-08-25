@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Faris Lagu 🚀</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#02030a;color:white;font-family:Arial;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(circle,#142653,#030611 55%,#000)}
+.star{position:absolute;width:3px;height:3px;background:white;border-radius:50%;animation:star 7s linear infinite}
+@keyframes star{from{transform:translateY(-20px)}to{transform:translateY(110vh)}}
+.sun{position:absolute;right:-35px;top:8%;width:130px;height:130px;border-radius:50%;background:#ffb300;box-shadow:0 0 70px #ff6500;animation:move 18s infinite alternate}
+.earth{position:absolute;left:4%;bottom:5%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#54b9ff 0 8%,transparent 9%),radial-gradient(circle at 65% 55%,#27813b 0 13%,transparent 14%),linear-gradient(90deg,#063d80,#1590df,#052858);box-shadow:0 0 35px #1684ff;animation:spin 12s linear infinite}
+.moon{position:absolute;left:25%;bottom:30%;width:48px;height:48px;border-radius:50%;background:#aaa;box-shadow:0 0 18px white;animation:move 9s infinite alternate}
+.planet{position:absolute;right:7%;top:55%;width:85px;height:85px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#e8bdff,#7627aa,#21062f);box-shadow:0 0 30px #9c27b0;animation:move 15s infinite alternate}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes move{to{transform:translate(-120px,90px)}}
+header{height:60px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;background:#03050ddd;border-bottom:1px solid #29466b;position:sticky;top:0;z-index:10}
+.logo{font-size:21px;font-weight:bold;color:#70c5ff}
+button{border:1px solid #367bb7;background:#123252;color:white;padding:10px 14px;border-radius:20px;cursor:pointer}
+main{padding:15px}
+.hero{text-align:center;padding:25px 5px}
+.hero h1{color:#8bd0ff;text-shadow:0 0 15px #1684ff}
+.hero p{color:#b9c8db}
+.grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:15px}
+.card{background:#050814e8;border:1px solid #263c65;border-radius:11px;padding:7px;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#42a5ff}
+.thumb{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:7px}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.num{position:absolute;top:6px;left:6px;background:#1678d2;padding:5px 8px;border-radius:5px}
+.info{padding:8px 3px}.title{font-weight:bold}.meta{font-size:12px;color:#9eabc0;margin-top:5px}
+.watch{display:none;max-width:1000px;margin:auto}
+.watch.show{display:block}
+.player{margin-top:12px;background:#000;border-radius:10px;overflow:hidden}
+.player iframe{width:100%;aspect-ratio:16/9;border:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.desc,.thanks{background:#050814e8;border:1px solid #263c65;padding:17px;border-radius:12px}
+.thanks{text-align:center;max-width:650px;margin:40px auto}
+#mini{display:none;position:fixed;right:10px;bottom:10px;width:300px;background:#050812;border:1px solid #367bb7;border-radius:10px;overflow:hidden;z-index:50}
+#mini iframe{width:100%;aspect-ratio:16/9;border:0}
+.miniText{padding:8px;display:flex;justify-content:space-between}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:9px}.title{font-size:13px}}
+@media(max-width:400px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+<div class="sun"></div>
+<div class="earth"></div>
+<div class="moon"></div>
+<div class="planet"></div>
+<script>
+for(let i=0;i<55;i++)
+document.write('<i class="star" style="left:'+Math.random()*100+'%;animation-delay:'+Math.random()*7+'s"></i>');
+</script>
+</div>
+
+<header>
+<div class="logo">🚀 Faris Lagu</div>
+<button onclick="location.href='admin.html'">⚙️ Admin</button>
+</header>
+
+<main>
+
+<section id="home">
+<div class="hero">
+<h1>🎵 Faris Lagu</h1>
+<p>Musik di luar angkasa 🌌</p>
+</div>
+
+<div id="grid" class="grid"></div>
+
+<div class="thanks">
+<h2>🚀 Terima Kasih</h2>
+<p>Terima kasih sudah melihat projek Faris.</p>
+<p>✨ Setiap hari akan ada update!</p>
+</div>
+</section>
+
+<section id="watch" class="watch">
+<button onclick="back()">← Kembali</button>
+
+<div class="player">
+<iframe id="player"
+allow="autoplay;encrypted-media;picture-in-picture"
+allowfullscreen></iframe>
+</div>
+
+<h2 id="judul"></h2>
+
+<div class="actions">
+<button onclick="likeVideo()" id="like">👍 Like</button>
+<button onclick="shareVideo()">↗ Bagikan</button>
+<button onclick="miniPlayer()">▣ Mini Player</button>
+</div>
+
+<div class="desc">
+🎧 Nikmati video Faris Lagu.
+</div>
+</section>
+
+</main>
+
+<div id="mini">
+<iframe id="miniFrame"
+allow="autoplay;encrypted-media;picture-in-picture"
+allowfullscreen></iframe>
+<div class="miniText">
+<span id="miniTitle"></span>
+<button onclick="closeMini()">×</button>
+</div>
+</div>
+
+<script>
+
+const awal=[
+["IrjzeNspw78","Faris Lagu 1"],
+["Zq1Jg0H5fzc","Faris Lagu 2"],
+["jrWlCPwIcRY","Faris Lagu 3"],
+["FcOctsNXyjk","Faris Lagu 4"],
+["t0Bt3a-MLGs","Faris Lagu 5"],
+["awWKxGftWh4","Faris Lagu 6"],
+["f98WnfV7Y8U","Faris Lagu 7"],
+["NgQVLbD-lQ0","Faris Lagu 8"],
+["0thbzmDpGQ0","Faris Lagu 9"],
+["KmrbRZ6CNpM","Faris Lagu 10"],
+["o25_Tn8BnFM","Faris Lagu 11"],
+["4qTWhgfGV_w","Faris Lagu 12"],
+["uKqneSX7AKU","Faris Lagu 13"],
+["imRahcdEATw","Faris Lagu 14"]
+];
+
+let data=JSON.parse(localStorage.getItem("farisVideos"));
+
+if(!data)
+data=awal.map(x=>({id:x[0],title:x[1]}));
+
+let current=null;
+
+function tampil(){
+
+grid.innerHTML=data.map((v,i)=>`
+
+<div class="card" onclick="openVideo(${i})">
+<div class="thumb">
+<img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg">
+<div class="num">${i+1}</div>
+</div>
+<div class="info">
+<div class="title">${v.title}</div>
+<div class="meta">🎵 Faris Lagu</div>
+</div>
+</div>
+
+`).join("");
+
+}
+
+function openVideo(i){
+
+current=data[i];
+
+home.style.display="none";
+watch.classList.add("show");
+
+player.src=
+"https://www.youtube.com/embed/"+
+current.id+
+"?rel=0&modestbranding=1";
+
+judul.textContent=current.title;
+
+scrollTo(0,0);
+
+}
+
+function back(){
+
+player.src="";
+watch.classList.remove("show");
+home.style.display="block";
+
+}
+
+function likeVideo(){
+
+like.textContent=
+like.textContent.includes("Liked")
+?"👍 Like":"👍 Liked";
+
+}
+
+function shareVideo(){
+
+if(!current)return;
+
+let url="https://youtu.be/"+current.id;
+
+if(navigator.share){
+navigator.share({
+title:current.title,
+url:url
+});
+}else{
+navigator.clipboard?.writeText(url);
+alert("Link video disalin!");
+}
+
+}
+
+function miniPlayer(){
+
+if(!current)return;
+
+miniFrame.src=
+"https://www.youtube.com/embed/"+
+current.id+
+"?autoplay=1&rel=0";
+
+miniTitle.textContent=current.title;
+
+mini.style.display="block";
+
+}
+
+function closeMini(){
+
+miniFrame.src="";
+mini.style.display="none";
+
+}
+
+tampil();
+
+</script>
+
+</body>
+</html>
