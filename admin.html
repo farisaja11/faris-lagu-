@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Faris Lagu</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#050816;color:white;font-family:Arial}
+.box{max-width:650px;margin:auto}
+h1{color:#65b9ff}
+.login,.panel{background:#0b1424;border:1px solid #315b87;border-radius:14px;padding:20px}
+input,button{width:100%;padding:13px;margin:6px 0;border-radius:8px;font-size:15px}
+input{background:#101827;color:white;border:1px solid #315b87}
+button{border:0;background:#1678d2;color:white;cursor:pointer}
+.red{background:#a51d2d}
+.gray{background:#555}
+.green{background:#237a35}
+.msg{text-align:center;color:#ff9d9d;min-height:20px}
+.item{background:#111b2b;border:1px solid #263c65;border-radius:10px;padding:12px;margin:10px 0}
+.item img{width:140px;border-radius:7px}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div id="loginBox" class="login">
+
+<h1>🔐 Login Admin</h1>
+
+<input id="username" placeholder="Username">
+
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p id="msg" class="msg"></p>
+
+</div>
+
+<div id="panel" class="panel" style="display:none">
+
+<h1>⚙️ Admin Faris Lagu</h1>
+
+<button class="green" onclick="location.href='index.html'">
+🏠 Kembali ke Website
+</button>
+
+<button class="red" onclick="logout()">
+🚪 Logout Admin
+</button>
+
+<h2>➕ Tambah Video</h2>
+
+<input id="url" placeholder="Link YouTube">
+
+<input id="judul" placeholder="Judul video">
+
+<button onclick="tambah()">➕ Tambah</button>
+
+<h2>📺 Daftar Video</h2>
+
+<div id="list"></div>
+
+<button class="gray" onclick="resetVideo()">
+♻️ Kembalikan 14 Video Awal
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const awal=[
+["IrjzeNspw78","Faris Lagu 1"],
+["Zq1Jg0H5fzc","Faris Lagu 2"],
+["jrWlCPwIcRY","Faris Lagu 3"],
+["FcOctsNXyjk","Faris Lagu 4"],
+["t0Bt3a-MLGs","Faris Lagu 5"],
+["awWKxGftWh4","Faris Lagu 6"],
+["f98WnfV7Y8U","Faris Lagu 7"],
+["NgQVLbD-lQ0","Faris Lagu 8"],
+["0thbzmDpGQ0","Faris Lagu 9"],
+["KmrbRZ6CNpM","Faris Lagu 10"],
+["o25_Tn8BnFM","Faris Lagu 11"],
+["4qTWhgfGV_w","Faris Lagu 12"],
+["uKqneSX7AKU","Faris Lagu 13"],
+["imRahcdEATw","Faris Lagu 14"]
+];
+
+let data=JSON.parse(localStorage.getItem("farisVideos"))||
+awal.map(x=>({id:x[0],title:x[1]}));
+
+function login(){
+
+let u=username.value.trim();
+let p=password.value;
+
+if(u==="admin"&&p==="12345"){
+
+localStorage.setItem("adminLogin","yes");
+
+loginBox.style.display="none";
+panel.style.display="block";
+
+tampil();
+
+}else{
+
+msg.textContent="Username atau password salah!";
+
+}
+
+}
+
+function cek(){
+
+if(localStorage.getItem("adminLogin")==="yes"){
+
+loginBox.style.display="none";
+panel.style.display="block";
+
+tampil();
+
+}
+
+}
+
+function getID(x){
+
+if(x.includes("youtu.be/"))
+return x.split("youtu.be/")[1].split("?")[0];
+
+if(x.includes("watch?v="))
+return x.split("watch?v=")[1].split("&")[0];
+
+return "";
+
+}
+
+function tambah(){
+
+let id=getID(url.value.trim());
+let title=judul.value.trim();
+
+if(!id){
+
+alert("Link YouTube tidak valid!");
+
+return;
+
+}
+
+if(!title)
+title="Faris Lagu "+(data.length+1);
+
+data.push({
+id:id,
+title:title
+});
+
+simpan();
+
+url.value="";
+judul.value="";
+
+tampil();
+
+alert("Video berhasil ditambahkan!");
+
+}
+
+function edit(i){
+
+let baru=prompt(
+"Masukkan judul baru:",
+data[i].title
+);
+
+if(baru){
+
+data[i].title=baru;
+
+simpan();
+
+tampil();
+
+}
+
+}
+
+function hapus(i){
+
+if(confirm("Yakin ingin menghapus video ini?")){
+
+data.splice(i,1);
+
+simpan();
+
+tampil();
+
+}
+
+}
+
+function simpan(){
+
+localStorage.setItem(
+"farisVideos",
+JSON.stringify(data)
+);
+
+}
+
+function resetVideo(){
+
+if(confirm("Kembalikan 14 video awal?")){
+
+data=awal.map(x=>({
+id:x[0],
+title:x[1]
+}));
+
+simpan();
+
+tampil();
+
+}
+
+}
+
+function tampil(){
+
+list.innerHTML=data.map((v,i)=>`
+
+<div class="item">
+
+<img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg">
+
+<p><b>${i+1}. ${v.title}</b></p>
+
+<button onclick="edit(${i})">
+✏️ Edit Judul
+</button>
+
+<button class="red" onclick="hapus(${i})">
+🗑️ Hapus
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+function logout(){
+
+localStorage.removeItem("adminLogin");
+
+location.reload();
+
+}
+
+cek();
+
+</script>
+
+</body>
+</html>
